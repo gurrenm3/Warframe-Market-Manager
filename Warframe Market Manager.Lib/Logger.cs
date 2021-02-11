@@ -57,5 +57,9 @@ namespace Warframe_Market_Manager.Lib
         }
 
         public static void Log(bool comparison) => Log(comparison.ToString());
+        public static void Log(int number) => Log(number.ToString());
+        public static void Log(long number) => Log(number.ToString());
+        public static void Log(float number) => Log(number.ToString());
+        public static void Log(double number) => Log(number.ToString());
     }
 }

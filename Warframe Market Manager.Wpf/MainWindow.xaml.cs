@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Warframe_Market_Manager.Lib;
+using Warframe_Market_Manager.Lib.Extensions;
 using Warframe_Market_Manager.Lib.Web;
 using Warframe_Market_Manager.Lib.WFM;
 
@@ -63,25 +64,30 @@ namespace Warframe_Market_Manager.Wpf
 
         private void Main_FinishedLoading(object sender, Main.MainEventArgs e)
         {
-            GetMarketItems();
+            //GetMarketItems();
         }
 
-        private void GetMarketItems()
+        /*private void GetMarketItems()
         {
             Thread t = new Thread(() => 
             {
                 var json = RestHandler.Get("items");
-                market.itemData = MarketItems_Config.FromJson(json);
+                market.ItemData = MarketItems_Config.FromJson(json);
                 market.OnMarketItemData_Aquired(new MarketHandler.MarketHandlerEvents());
             });
 
             t.IsBackground = true;
             t.Start();
-        }
+        }*/
 
         private void MarketItemData_Aquired(object sender, MarketHandler.MarketHandlerEvents e)
         {
             
+        }
+
+        private void ModifyOrders_Button_Click(object sender, RoutedEventArgs e)
+        {
+            market.UpdateAllListings();
         }
     }
 }

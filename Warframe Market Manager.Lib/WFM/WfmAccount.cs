@@ -20,31 +20,7 @@ namespace Warframe_Market_Manager.Lib.WFM
             LoadAccount(email, password, out string jwt);
         }
 
-        public WfmAccount LoadFromFile()
-        {
-            if (!File.Exists(savePath))
-            {
-                SaveToFile();
-                return this;
-            }
-
-            var account = Serializer.LoadFromFile<WfmAccount>(savePath);
-            if (account is null)
-                return this;
-
-            email = account.email;
-            password = account.password;
-            return this;
-        }
-
-        public void SaveToFile()
-        {
-            Serializer.SaveToFile(this, savePath);
-        }
-
-
-        public bool LoadAccount() => LoadAccount(email, password, out string jwt);
-
+        
         public bool LoadAccount(string email, string password, out string jwt)
         {
             bool success = Login(email, password, out jwt);
@@ -55,14 +31,12 @@ namespace Warframe_Market_Manager.Lib.WFM
             return success;
         }
 
-        private bool Login() => Login(email, password, out string jwt);
-
         private bool Login(string email, string password, out string jwt)
         {
             jwt = "";
 
-            var client = RestHandler.client;
-            var request = RestHandler.InitializeRequest("auth/signin");
+            var client = RestHelper.client;
+            var request = RestHelper.InitializeRequest("auth/signin");
             var json = $"{{ \"email\":\"{email}\",\"password\":\"{password.Replace(@"\", @"\\")}\", \"auth_type\": \"header\"}}";
             request.AddJsonBody(json);
             var response = client.Post(request);
@@ -87,7 +61,7 @@ namespace Warframe_Market_Manager.Lib.WFM
 
         private Profile LoadProfile()
         {
-            var profileResponse = RestHandler.Get("/profile");
+            var profileResponse = RestHelper.Get("/profile").Content;
             var profile = Profile_Config.FromJson(profileResponse).Profile;
 
             string msg = (profile is null) ? "Failed to get WFM profile. Try relaunching app." : "Successfully aquired WFM profile.";
@@ -108,6 +82,30 @@ namespace Warframe_Market_Manager.Lib.WFM
             var jwt = header.Value.ToString();
             MarketHandler.Instance.JWT = jwt.Replace("JWT", "").Trim();
             return true;
+        }
+
+
+
+        public WfmAccount LoadFromFile()
+        {
+            if (!File.Exists(savePath))
+            {
+                SaveToFile();
+                return this;
+            }
+
+            var account = Serializer.LoadFromFile<WfmAccount>(savePath);
+            if (account is null)
+                return this;
+
+            email = account.email;
+            password = account.password;
+            return this;
+        }
+
+        public void SaveToFile()
+        {
+            Serializer.SaveToFile(this, savePath);
         }
     }
 }

@@ -5,7 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Warframe_Market_Manager.Wpf"
         mc:Ignorable="d"
-        Title="Warframe Market Manager" Height="450" Width="800" Closed="Window_Closed" IsVisibleChanged="Window_IsVisibleChanged">
+        Title="Warframe Market Manager" Height="450" Width="800" Closed="Window_Closed" IsVisibleChanged="Window_IsVisibleChanged"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="#FF3E3E3E"
+        FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -18,9 +26,9 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="1" Grid.Column="1">
+        <TabControl Grid.Row="1" Grid.Column="1" Background="#FF646464">
             <TabItem Header="Test 1">
-                
+                <Button x:Name="ModifyOrders_Button" Content="Update All Orders" Height="Auto" Margin="262,135,281,170" Click="ModifyOrders_Button_Click"/>
             </TabItem>
             <TabItem Header="Test 2">
 
@@ -30,7 +38,7 @@
             </TabItem>
             <TabItem Header="Console" x:Name="Console">
                 <RichTextBox x:Name="ConsoleRTB" Background="#FFC3C3C3" FontSize="18" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
-                    
+
                 </RichTextBox>
             </TabItem>
         </TabControl>

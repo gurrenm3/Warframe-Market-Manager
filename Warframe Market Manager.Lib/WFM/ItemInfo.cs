@@ -8,7 +8,7 @@ namespace Warframe_Market_Manager.Lib.WFM
 {
     public class ItemInfo
     {
-        public Item ItemData { get; set; }
+        public MarketItem ItemData { get; set; }
 
         public List<Order> SellOrders { get; set; } = new List<Order>();
         public List<Order> BuyOrders { get; set; } = new List<Order>();

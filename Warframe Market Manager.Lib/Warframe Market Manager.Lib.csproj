@@ -48,13 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\MarketItemExt.cs" />
+    <Compile Include="Extensions\OrderExt.cs" />
+    <Compile Include="Extensions\ProfileExt.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer.cs" />
     <Compile Include="Web\FileDownloader.cs" />
     <Compile Include="Web\GithubReleaseConfig.cs" />
-    <Compile Include="Web\RestHandler.cs" />
+    <Compile Include="Web\RestHelper.cs" />
     <Compile Include="Web\UpdateHandler.cs" />
     <Compile Include="Web\WebReader.cs" />
     <Compile Include="WFM\ItemInfo.cs" />
@@ -62,6 +65,7 @@
     <Compile Include="WFM\MarketHandler.cs" />
     <Compile Include="WFM\MarketItems_Config.cs" />
     <Compile Include="WFM\Profile_Config.cs" />
+    <Compile Include="WFM\Profile_Orders.cs" />
     <Compile Include="WFM\WfmAccount.cs" />
   </ItemGroup>
   <ItemGroup />

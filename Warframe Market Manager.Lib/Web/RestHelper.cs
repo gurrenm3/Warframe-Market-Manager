@@ -3,7 +3,7 @@ using Warframe_Market_Manager.Lib.WFM;
 
 namespace Warframe_Market_Manager.Lib.Web
 {
-    public class RestHandler
+    public class RestHelper
     {
         public const string rootApi = "https://api.warframe.market/v1/";
         public static RestClient client = new RestClient(rootApi);
@@ -18,7 +18,7 @@ namespace Warframe_Market_Manager.Lib.Web
             request.AddHeader("accept", "application/json");
             request.AddHeader("platform", "pc");
             request.AddHeader("auth_type", "header");
-
+            
             return request;
         }
 
@@ -41,24 +41,59 @@ namespace Warframe_Market_Manager.Lib.Web
             return true;
         }
 
-        public static string Post(string requestPath, bool requireAuth = false)
+        public static IRestResponse Get(string requestPath, string jsonBody = "", bool requireAuth = false)
         {
-            if (!IsAuthValid(requireAuth))
-                return null;
-
-            request = InitializeRequest($"{rootApi}/{requestPath}");
-            var response = client.Post(request);
-            return response.Content;
+            return GenericRequest(RequestType.Get, requestPath, jsonBody, requireAuth);
         }
 
-        public static string Get(string requestPath, bool requireAuth = false)
+        public static IRestResponse Post(string requestPath, string jsonBody = "", bool requireAuth = false)
+        {
+            return GenericRequest(RequestType.Post, requestPath, jsonBody, requireAuth);
+        }
+
+        public static IRestResponse Put(string requestPath, string jsonBody = "", bool requireAuth = false)
+        {
+            return GenericRequest(RequestType.Put, requestPath, jsonBody, requireAuth);
+        }
+
+        
+
+        enum RequestType
+        {
+            Get,
+            Post,
+            Put
+        }
+
+        private static IRestResponse GenericRequest(RequestType requestType, string requestPath, string jsonBody = "", bool requireAuth = false)
         {
             if (!IsAuthValid(requireAuth))
                 return null;
 
             request = InitializeRequest($"{rootApi}/{requestPath}");
-            var response = client.Get(request);
-            return response.Content;
+
+            if (!string.IsNullOrEmpty(jsonBody))
+                request.AddJsonBody(jsonBody);
+
+            IRestResponse response = null;
+
+            switch (requestType)
+            {
+                case RequestType.Get:
+                    response = client.Get(request);
+                    break;
+                case RequestType.Post:
+                    response = client.Post(request);
+                    break;
+                case RequestType.Put:
+                    client.Execute(request);
+                    response = client.Put(request);
+                    break;
+                default:
+                    break;
+            }
+
+            return response;
         }
     }
 }

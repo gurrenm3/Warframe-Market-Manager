@@ -90,7 +90,7 @@ namespace Warframe_Market_Manager.Lib.WFM
 
     public enum Region { En };
 
-    public enum Status { Ingame, Offline };
+    public enum Status { Ingame, Online, Offline };
 
     public partial class MarketOrder_Config
     {
@@ -202,11 +202,13 @@ namespace Warframe_Market_Manager.Lib.WFM
         {
             if (reader.TokenType == JsonToken.Null) return null;
             var value = serializer.Deserialize<string>(reader);
-            if (value == "en")
+            return Region.En; // using En as default
+
+            /*if (value == "en")
             {
                 return Region.En;
-            }
-            throw new Exception("Cannot unmarshal type Region");
+            }*/
+            //throw new Exception("Cannot unmarshal type Region");
         }
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
@@ -240,6 +242,8 @@ namespace Warframe_Market_Manager.Lib.WFM
             {
                 case "ingame":
                     return Status.Ingame;
+                case "online":
+                    return Status.Online;
                 case "offline":
                     return Status.Offline;
                 default:
@@ -260,6 +264,9 @@ namespace Warframe_Market_Manager.Lib.WFM
             {
                 case Status.Ingame:
                     serializer.Serialize(writer, "ingame");
+                    return;
+                case Status.Online:
+                    serializer.Serialize(writer, "online");
                     return;
                 case Status.Offline:
                     serializer.Serialize(writer, "offline");

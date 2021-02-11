@@ -24,10 +24,10 @@ namespace Warframe_Market_Manager.Lib.WFM
     public partial class Payload
     {
         [JsonProperty("items")]
-        public Item[] Items { get; set; }
+        public MarketItem[] MarketItems { get; set; }
     }
 
-    public partial class Item
+    public partial class MarketItem
     {
         [JsonProperty("thumb")]
         public string Thumb { get; set; }
