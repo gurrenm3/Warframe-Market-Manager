@@ -17,11 +17,11 @@ namespace Warframe_Market_Manager.Lib.WFM.QuickType
 
     public class AllItems_QuickType
     {
-        /*[JsonProperty("payload", NullValueHandling = NullValueHandling.Ignore)]
-        public Payload Payload { get; set; }*/
+        [JsonProperty("payload", NullValueHandling = NullValueHandling.Ignore)]
+        public Payload Payload { get; set; }
 
-        [JsonProperty("items", NullValueHandling = NullValueHandling.Ignore)]
-        public List<ItemOverview> Items { get; set; }
+        /*[JsonProperty("items", NullValueHandling = NullValueHandling.Ignore)]
+        public List<ItemOverview> Items { get; set; }*/
 
 
         public static AllItems_QuickType FromJson(string json)
@@ -48,11 +48,11 @@ namespace Warframe_Market_Manager.Lib.WFM.QuickType
         }
     }
 
-    /*public partial class Payload
+    public partial class Payload
     {
         [JsonProperty("items", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Item> Items { get; set; }
-    }*/
+        public List<ItemOverview> Items { get; set; }
+    }
 
     /*public partial class AllItems_ItemInfo
     {

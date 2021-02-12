@@ -12,7 +12,8 @@ namespace Warframe_Market_Manager.Lib.WFM
         public bool? Visible { get; set; }
 
         [JsonProperty("region", NullValueHandling = NullValueHandling.Ignore)]
-        public Region? Region { get; set; }
+        public string Region { get; set; }
+        //public Region? Region { get; set; }
 
         [JsonProperty("platform", NullValueHandling = NullValueHandling.Ignore)]
         public Platform? DevicePlatform { get; set; }

@@ -9,10 +9,15 @@ namespace Warframe_Market_Manager.Lib.Extensions
     {
         public static List<Order> GetSellOrders(this AccountProfile profile)
         {
+            //Logger.Log("2");
             string json = RestHelper.Get($"profile/{profile.IngameName}/orders", requireAuth:true).Content.Replace("\\","/");
-            var orderConfig = ProfileOrders_QuickType.FromJson(json);
+            //Logger.Log(json);
 
-            return orderConfig.SellOrders;
+            //return new List<Order>();
+            //Logger.Log("3");
+            var orderConfig = ProfileOrders_QuickType.FromJson(json);
+            //Logger.Log("4");
+            return orderConfig.Payload.SellOrders;
         }
 
         public static List<Order> GetBuyOrders(this AccountProfile profile)
@@ -20,7 +25,7 @@ namespace Warframe_Market_Manager.Lib.Extensions
             string json = RestHelper.Get($"profile/{profile.IngameName}/orders", requireAuth: true).Content.Replace("\\", "/");
             var orderConfig = ProfileOrders_QuickType.FromJson(json);
 
-            return orderConfig.BuyOrders;
+            return orderConfig.Payload.BuyOrders;
         }
     }
 }

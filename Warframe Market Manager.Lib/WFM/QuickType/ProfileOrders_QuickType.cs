@@ -17,14 +17,14 @@ namespace Warframe_Market_Manager.Lib.WFM.QuickType
 
     public partial class ProfileOrders_QuickType
     {
-        /*[JsonProperty("payload", NullValueHandling = NullValueHandling.Ignore)]
-        public Payload Payload { get; set; }*/
+        [JsonProperty("payload", NullValueHandling = NullValueHandling.Ignore)]
+        public Payload Payload { get; set; }
 
-        [JsonProperty("sell_orders", NullValueHandling = NullValueHandling.Ignore)]
+        /*[JsonProperty("sell_orders", NullValueHandling = NullValueHandling.Ignore)]
         public List<Order> SellOrders { get; set; }
 
         [JsonProperty("buy_orders", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Order> BuyOrders { get; set; }
+        public List<Order> BuyOrders { get; set; }*/
 
 
         public static ProfileOrders_QuickType FromJson(string json)
@@ -51,14 +51,14 @@ namespace Warframe_Market_Manager.Lib.WFM.QuickType
         }
     }
 
-    /*public partial class Payload
+    public partial class Payload
     {
         [JsonProperty("sell_orders", NullValueHandling = NullValueHandling.Ignore)]
         public List<Order> SellOrders { get; set; }
 
         [JsonProperty("buy_orders", NullValueHandling = NullValueHandling.Ignore)]
         public List<Order> BuyOrders { get; set; }
-    }*/
+    }
 
     /*public partial class Order
     {

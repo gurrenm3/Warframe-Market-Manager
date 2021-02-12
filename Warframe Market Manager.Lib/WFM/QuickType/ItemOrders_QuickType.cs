@@ -17,11 +17,11 @@ namespace Warframe_Market_Manager.Lib.WFM.QuickType
 
     public partial class ItemOrders_QuickType
     {
-        /*[JsonProperty("payload", NullValueHandling = NullValueHandling.Ignore)]
-        public Payload Payload { get; set; }*/
+        [JsonProperty("payload", NullValueHandling = NullValueHandling.Ignore)]
+        public Payload Payload { get; set; }
 
-        [JsonProperty("orders", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Order> Orders { get; set; }
+        /*[JsonProperty("orders", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Order> Orders { get; set; }*/
 
 
         public static ItemOrders_QuickType FromJson(string json)
@@ -37,7 +37,7 @@ namespace Warframe_Market_Manager.Lib.WFM.QuickType
             {
                 OrderTypeConverter.Singleton,
                 PlatformConverter.Singleton,
-                RegionConverter.Singleton,
+                //RegionConverter.Singleton,
                 StatusConverter.Singleton,
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
@@ -53,11 +53,11 @@ namespace Warframe_Market_Manager.Lib.WFM.QuickType
     }
 
 
-    /*public partial class Payload
+    public partial class Payload
     {
         [JsonProperty("orders", NullValueHandling = NullValueHandling.Ignore)]
         public List<Order> Orders { get; set; }
-    }*/
+    }
 
     /*public class Order
     {
@@ -245,7 +245,9 @@ namespace Warframe_Market_Manager.Lib.WFM.QuickType
                 case "ru":
                     return Region.Ru;
             }
-            throw new Exception("Cannot unmarshal type Region");
+
+            return value;
+            //throw new Exception("Cannot unmarshal type Region");
         }
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
@@ -291,7 +293,9 @@ namespace Warframe_Market_Manager.Lib.WFM.QuickType
                 case "online":
                     return OnlineStatus.Online;
             }
-            throw new Exception("Cannot unmarshal type Status");
+
+            return value;
+            //throw new Exception("Cannot unmarshal type Status");
         }
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
@@ -314,7 +318,8 @@ namespace Warframe_Market_Manager.Lib.WFM.QuickType
                     serializer.Serialize(writer, "online");
                     return;
             }
-            throw new Exception("Cannot marshal type Status");
+            
+            //throw new Exception("Cannot marshal type Status");
         }
 
         public static readonly StatusConverter Singleton = new StatusConverter();

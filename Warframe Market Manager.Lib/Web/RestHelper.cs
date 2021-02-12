@@ -19,6 +19,7 @@ namespace Warframe_Market_Manager.Lib.Web
             request.AddHeader("accept", "application/json");
             request.AddHeader("platform", "pc");
             request.AddHeader("auth_type", "header");
+            //request.AddHeader("Content-Type", "application/json; utf-8");
             
             return request;
         }

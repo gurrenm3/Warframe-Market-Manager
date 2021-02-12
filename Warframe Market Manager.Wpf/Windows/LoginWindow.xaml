@@ -40,7 +40,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Email:" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Foreground="White"/>
-                <RichTextBox x:Name="EmailRTB" FontSize="18" Grid.Column="3" VerticalContentAlignment="Center" Margin="0,2" AcceptsReturn="False"/>
+                <RichTextBox x:Name="EmailRTB" FontSize="18" Grid.Column="3" VerticalContentAlignment="Center" Margin="0,2" AcceptsReturn="False" Background="#FF2B2B2B" Foreground="White"/>
             </Grid>
             <Grid x:Name="PasswordGrid" Grid.Column="1" Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -49,7 +49,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Pass:" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Foreground="White"/>
-                <RichTextBox x:Name="PasswordRTB" FontSize="18" Grid.Column="3" VerticalContentAlignment="Center" Margin="0,2" AcceptsReturn="False"/>
+                <RichTextBox x:Name="PasswordRTB" FontSize="18" Grid.Column="3" VerticalContentAlignment="Center" Margin="0,2" AcceptsReturn="False" Background="#FF2B2B2B" Foreground="White"/>
             </Grid>
             <Grid x:Name="SubmitGrid" Grid.Column="1" Grid.Row="3">
                 <Grid.ColumnDefinitions>
@@ -58,7 +58,7 @@
                 </Grid.ColumnDefinitions>
                 <Button x:Name="SubmitButton" Content="Submit" Grid.Column="1" Margin="0,8,0,0" FontSize="16" Click="SubmitButton_Click"/>
             </Grid>
-            
+
         </Grid>
     </Grid>
 </Window>

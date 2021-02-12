@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Warframe_Market_Manager.Lib.WFM
 {
-    public partial class ProfileItemOverview
+    /*public partial class ProfileItemOverview
     {
         [JsonProperty("thumb", NullValueHandling = NullValueHandling.Ignore)]
         public string Thumb { get; set; }
@@ -32,7 +32,7 @@ namespace Warframe_Market_Manager.Lib.WFM
 
 
         // Extra info for different languages. Not using because I don't plan to support it now
-        /*[JsonProperty("zh-hant", NullValueHandling = NullValueHandling.Ignore)]
+        *//*[JsonProperty("zh-hant", NullValueHandling = NullValueHandling.Ignore)]
         public De ZhHant { get; set; }
 
         [JsonProperty("es", NullValueHandling = NullValueHandling.Ignore)]
@@ -60,6 +60,6 @@ namespace Warframe_Market_Manager.Lib.WFM
         public De Ko { get; set; }
 
         [JsonProperty("fr", NullValueHandling = NullValueHandling.Ignore)]
-        public De Fr { get; set; }*/
-    }
+        public De Fr { get; set; }*//*
+    }*/
 }

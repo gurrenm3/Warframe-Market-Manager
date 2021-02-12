@@ -55,6 +55,7 @@ namespace Warframe_Market_Manager.Wpf
 
         private void Logger_MessageLogged(object sender, Logger.LogEvents e)
         {
+            //MessageBox.Show(e.Message);
             Main.RunOnUIThread(() =>
             {
                 ConsoleRTB.AppendText($"{e.Message}\n");
@@ -87,9 +88,24 @@ namespace Warframe_Market_Manager.Wpf
 
         private async void ModifyOrders_Button_Click(object sender, RoutedEventArgs e)
         {
-            var account = MarketManager.Instance.Account;
-            account.GetAccountFromFile();
-            await account.LoginAsync();
+            if (!market.Account.IsLoggedIn)
+            {
+                var account = market.Account;
+                account.GetAccountFromFile();
+                if (!account.HasEmailAndPass())
+                {
+                    Windows.LoginWindow loginWindow = new Windows.LoginWindow();
+                    loginWindow.Show();
+                    return;
+                }
+
+                await account.LoginAsync();
+            }
+
+            if (market.Account.IsLoggedIn)
+            {
+                market.UpdateAllListings();
+            }
         }
     }
 }

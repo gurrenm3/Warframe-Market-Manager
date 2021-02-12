@@ -17,7 +17,7 @@ namespace Warframe_Market_Manager.Lib.WFM
         public string Email { get; set; }
         public string Password { get; set; }
         public string Jwt { get; set; }
-
+        public bool IsLoggedIn { get; set; }
 
         public WfmAccount() {  }
 
@@ -66,23 +66,28 @@ namespace Warframe_Market_Manager.Lib.WFM
             var json = $"{{ \"email\":\"{email}\",\"password\":\"{password.Replace(@"\", @"\\")}\", \"auth_type\": \"header\"}}";
             var response = RestHelper.Post("auth/signin", jsonBody: json);
 
-            if (!Jwt.IsNullOrEmpty())
+            if (IsLoggedIn)
                 return true;
 
             bool success = SetJWT(response);
             if (!success)
                 return false;
 
-
             Email = email;
             Password = password;
-            Logger.Log("Successfully logged into Warframe Market account.");
 
             if (profile is null)
                 profile = LoadProfile();
 
-            Logger.Log($"Welcome {profile?.IngameName}");
+            if (string.IsNullOrEmpty(profile?.IngameName))
+            {
+                Logger.Log($"Failed to login to user profile.");
+                return false;
+            }
 
+            Logger.Log($"Welcome {profile?.IngameName}");
+            IsLoggedIn = true;
+            
             return true;
         }
         private bool SetJWT(IRestResponse response)
@@ -100,7 +105,7 @@ namespace Warframe_Market_Manager.Lib.WFM
         }
         private AccountProfile LoadProfile()
         {
-            var profileResponse = RestHelper.Get("/profile").Content;
+            var profileResponse = RestHelper.Get("/profile", requireAuth:true).Content;
             var profile = AccountProfile_QuickType.FromJson(profileResponse).AccountProfile;
 
             string msg = (profile is null) ? "Failed to get WFM profile. Try relaunching app." : "Successfully aquired WFM profile.";
@@ -110,7 +115,7 @@ namespace Warframe_Market_Manager.Lib.WFM
         }
 
 
-        private bool HasEmailAndPass() => !Email.IsNullOrEmpty() && !Password.IsNullOrEmpty();
+        public bool HasEmailAndPass() => !Email.IsNullOrEmpty() && !Password.IsNullOrEmpty();
         public bool HasJwt() => !string.IsNullOrEmpty(Jwt);
     }
 }

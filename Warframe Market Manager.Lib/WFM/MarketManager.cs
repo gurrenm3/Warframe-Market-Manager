@@ -16,8 +16,8 @@ namespace Warframe_Market_Manager.Lib.WFM
         {
             get 
             {
-                /*if (marketItems is null)
-                    marketItems = MarketItems_Config.FromJson(RestHelper.Get("items").Content).Payload.MarketItems.ToList();*/
+                if (itemOverviews is null)
+                    itemOverviews = AllItems_QuickType.FromJson(RestHelper.Get("items").Content).Payload.Items;
                 return itemOverviews;
             }
             set { itemOverviews = value; }
@@ -39,11 +39,18 @@ namespace Warframe_Market_Manager.Lib.WFM
         
         public void UpdateAllListings()
         {
+            //Logger.Log("1");
             var myOrders = Account.profile.GetSellOrders();
+            //return;
+            //Logger.Log("5");
             foreach (var myOrder in myOrders)
             {
                 var allSellOrders = myOrder.ItemOverview.GetAllSellOrders(OnlineStatus.Ingame);
-                var topListing = allSellOrders[1];
+                if (!allSellOrders.Any())
+                    break;
+
+                //Logger.Log("6");
+                var topListing = allSellOrders[0];
 
                 if (myOrder.Id != topListing.Id)
                     myOrder.ModifyOrder(cost: topListing.Platinum.Value);

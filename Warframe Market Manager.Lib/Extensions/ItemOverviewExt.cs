@@ -17,7 +17,7 @@ namespace Warframe_Market_Manager.Lib.Extensions
             var response = RestHelper.Get($"items/{marketItem.UrlName}/orders");
             var config = ItemOrders_QuickType.FromJson(response.Content);
 
-            var orders = config.Orders.GetOrdersOfType(OrderType.Sell, onlineStatus);
+            var orders = config.Payload.Orders.GetOrdersOfType(OrderType.Sell, onlineStatus);
             return orders;
         }
     }

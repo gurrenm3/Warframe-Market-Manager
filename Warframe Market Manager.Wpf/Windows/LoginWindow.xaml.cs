@@ -27,7 +27,7 @@ namespace Warframe_Market_Manager.Wpf.Windows
             InitializeComponent();
         }
 
-        private void SubmitButton_Click(object sender, RoutedEventArgs e)
+        private async void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
             if (!AreInputsValid())
                 return;
@@ -35,8 +35,8 @@ namespace Warframe_Market_Manager.Wpf.Windows
             string email = EmailRTB.GetContent().Trim();
             string password = PasswordRTB.GetContent().Trim();
             
-            var success = MarketManager.Instance.Account.LoginAsync(email, password);
-            if (!success.Result)
+            var success = await MarketManager.Instance.Account.LoginAsync(email, password);
+            if (!success)
             {
                 string msg = "Email or Password was not correct. Please try again";
                 Logger.Log(msg);

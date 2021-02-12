@@ -16,10 +16,11 @@ namespace Warframe_Market_Manager.Lib.WFM
         public long? Reputation { get; set; }
 
         [JsonProperty("region", NullValueHandling = NullValueHandling.Ignore)]
-        public Region? Region { get; set; }
+        public string Region { get; set; }
+        //public Region? Region { get; set; }
 
         [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
-        public OnlineStatus? Status { get; set; }
+        public OnlineStatus? OnlineStatus { get; set; }
 
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
