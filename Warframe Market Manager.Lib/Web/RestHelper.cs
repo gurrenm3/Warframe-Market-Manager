@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using System.Threading.Tasks;
 using Warframe_Market_Manager.Lib.WFM;
 
 namespace Warframe_Market_Manager.Lib.Web
@@ -13,7 +14,7 @@ namespace Warframe_Market_Manager.Lib.Web
         {
             var request = new RestRequest(requestPath);
 
-            request.AddHeader("Authorization", $"JWT {MarketHandler.Instance.JWT}");
+            request.AddHeader("Authorization", $"JWT {MarketManager.Instance.Account.Jwt}");
             request.AddHeader("language", "en");
             request.AddHeader("accept", "application/json");
             request.AddHeader("platform", "pc");
@@ -22,16 +23,17 @@ namespace Warframe_Market_Manager.Lib.Web
             return request;
         }
 
-
         private static bool IsAuthValid(bool requireAuth)
         {
-            if (requireAuth && !MarketHandler.Instance.IsJWTValid())
+            if (requireAuth && !MarketManager.Instance.Account.HasJwt())
             {
-                string email = MarketHandler.Instance.account.email;
-                string password = MarketHandler.Instance.account.password;
-                MarketHandler.Instance.account.LoadAccount(email, password, out string jwt);
+                string email = MarketManager.Instance.Account.Email;
+                string password = MarketManager.Instance.Account.Password;
+                var accounnt = MarketManager.Instance.Account;
                 
-                if (string.IsNullOrEmpty(jwt))
+                accounnt.Login(email, password);
+                
+                if (string.IsNullOrEmpty(accounnt.Jwt))
                 {
                     Logger.Log("Authorization Failed. Failed to get JWT");
                     return false;
@@ -45,18 +47,39 @@ namespace Warframe_Market_Manager.Lib.Web
         {
             return GenericRequest(RequestType.Get, requestPath, jsonBody, requireAuth);
         }
+        public static async Task<IRestResponse> GetAsync(string requestPath, string jsonBody = "", bool requireAuth = false)
+        {
+            IRestResponse response = null;
+            await Task.Run(() => { response = Get(requestPath, jsonBody, requireAuth); });
+
+            return response;
+        }
 
         public static IRestResponse Post(string requestPath, string jsonBody = "", bool requireAuth = false)
         {
             return GenericRequest(RequestType.Post, requestPath, jsonBody, requireAuth);
+        }
+        public static async Task<IRestResponse> PostAsync(string requestPath, string jsonBody = "", bool requireAuth = false)
+        {
+            IRestResponse response = null;
+            await Task.Run(() => { response = Post(requestPath, jsonBody, requireAuth); });
+
+            return response;
         }
 
         public static IRestResponse Put(string requestPath, string jsonBody = "", bool requireAuth = false)
         {
             return GenericRequest(RequestType.Put, requestPath, jsonBody, requireAuth);
         }
+        public static async Task<IRestResponse> PutAsync(string requestPath, string jsonBody = "", bool requireAuth = false)
+        {
+            IRestResponse response = null;
+            await Task.Run(() => { response = Put(requestPath, jsonBody, requireAuth); });
 
-        
+            return response;
+        }
+
+
 
         enum RequestType
         {

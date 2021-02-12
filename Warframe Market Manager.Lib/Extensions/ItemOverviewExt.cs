@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 using Warframe_Market_Manager.Lib.Web;
 using Warframe_Market_Manager.Lib.WFM;
 using Warframe_Market_Manager.Lib.Extensions;
+using Warframe_Market_Manager.Lib.WFM.QuickType;
 
 namespace Warframe_Market_Manager.Lib.Extensions
 {
-    public static class MarketItemExt
+    public static class ItemOverviewExt
     {
-
-        public static List<Order> GetAllSellOrders(this MarketItem marketItem, Status onlineStatus)
+        public static List<Order> GetAllSellOrders(this ItemOverview marketItem, OnlineStatus onlineStatus)
         {
             var response = RestHelper.Get($"items/{marketItem.UrlName}/orders");
-            var config = MarketOrder_Config.FromJson(response.Content);
+            var config = ItemOrders_QuickType.FromJson(response.Content);
 
-            var orders = config.Payload.Orders.GetSellOrders(onlineStatus);
+            var orders = config.Orders.GetOrdersOfType(OrderType.Sell, onlineStatus);
             return orders;
         }
     }

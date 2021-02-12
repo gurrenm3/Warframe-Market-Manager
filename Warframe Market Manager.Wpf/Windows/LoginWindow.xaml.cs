@@ -35,8 +35,8 @@ namespace Warframe_Market_Manager.Wpf.Windows
             string email = EmailRTB.GetContent().Trim();
             string password = PasswordRTB.GetContent().Trim();
             
-            var success = MarketHandler.Instance.account.LoadAccount(email, password, out string jwt);
-            if (!success)
+            var success = MarketManager.Instance.Account.LoginAsync(email, password);
+            if (!success.Result)
             {
                 string msg = "Email or Password was not correct. Please try again";
                 Logger.Log(msg);
@@ -44,7 +44,7 @@ namespace Warframe_Market_Manager.Wpf.Windows
             }
             else
             {
-                MarketHandler.Instance.account.SaveToFile();
+                MarketManager.Instance.Account.SaveAccountToFile();
                 this.Close();
             }
         }

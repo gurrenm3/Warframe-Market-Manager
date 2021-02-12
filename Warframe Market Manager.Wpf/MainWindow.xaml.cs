@@ -27,7 +27,7 @@ namespace Warframe_Market_Manager.Wpf
     public partial class MainWindow : Window
     {
         public static MainWindow instance;
-        private MarketHandler market;
+        private MarketManager market;
 
         public MainWindow()
         {
@@ -36,15 +36,15 @@ namespace Warframe_Market_Manager.Wpf
 
             Logger.MessageLogged += Logger_MessageLogged;
             
-            market = MarketHandler.Instance;
-            MarketHandler.MarketItemData_Aquired += MarketItemData_Aquired;
+            market = MarketManager.Instance;
+            MarketManager.MarketItemData_Aquired += MarketItemData_Aquired;
             Main.FinishedLoading += Main_FinishedLoading;
         }
 
         private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             Logger.Log("Warframe Market Manager has loaded");
-            Main.GetAccountData();
+            //Main.GetAccountData();
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -80,14 +80,16 @@ namespace Warframe_Market_Manager.Wpf
             t.Start();
         }*/
 
-        private void MarketItemData_Aquired(object sender, MarketHandler.MarketHandlerEvents e)
+        private void MarketItemData_Aquired(object sender, MarketManager.MarketHandlerEvents e)
         {
-            
+
         }
 
-        private void ModifyOrders_Button_Click(object sender, RoutedEventArgs e)
+        private async void ModifyOrders_Button_Click(object sender, RoutedEventArgs e)
         {
-            market.UpdateAllListings();
+            var account = MarketManager.Instance.Account;
+            account.GetAccountFromFile();
+            await account.LoginAsync();
         }
     }
 }

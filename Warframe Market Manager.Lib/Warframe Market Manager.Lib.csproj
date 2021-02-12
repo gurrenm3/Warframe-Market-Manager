@@ -48,9 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\MarketItemExt.cs" />
+    <Compile Include="Extensions\ItemOverviewExt.cs" />
     <Compile Include="Extensions\OrderExt.cs" />
-    <Compile Include="Extensions\ProfileExt.cs" />
+    <Compile Include="Extensions\AccountProfileExt.cs" />
+    <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,12 +61,24 @@
     <Compile Include="Web\RestHelper.cs" />
     <Compile Include="Web\UpdateHandler.cs" />
     <Compile Include="Web\WebReader.cs" />
-    <Compile Include="WFM\ItemInfo.cs" />
-    <Compile Include="WFM\MarketOrder_Config.cs" />
-    <Compile Include="WFM\MarketHandler.cs" />
-    <Compile Include="WFM\MarketItems_Config.cs" />
-    <Compile Include="WFM\Profile_Config.cs" />
-    <Compile Include="WFM\Profile_Orders.cs" />
+    <Compile Include="WFM\AccountProfile.cs" />
+    <Compile Include="WFM\ItemOverview.cs" />
+    <Compile Include="WFM\ItemDescription.cs" />
+    <Compile Include="WFM\LinkedAccounts.cs" />
+    <Compile Include="WFM\MarketManager.cs" />
+    <Compile Include="WFM\Enums\OnlineStatus.cs" />
+    <Compile Include="WFM\Order.cs" />
+    <Compile Include="WFM\Enums\OrderType.cs" />
+    <Compile Include="WFM\Enums\Platform.cs" />
+    <Compile Include="WFM\ProfileItemOverview.cs" />
+    <Compile Include="WFM\QuickType\AccountProfile_QuickType.cs" />
+    <Compile Include="WFM\QuickType\AllItems_QuickType.cs" />
+    <Compile Include="WFM\QuickType\ItemInformation_QuickType.cs" />
+    <Compile Include="WFM\QuickType\ItemOrders_QuickType.cs" />
+    <Compile Include="WFM\DropRelic.cs" />
+    <Compile Include="WFM\Enums\Region.cs" />
+    <Compile Include="WFM\QuickType\ProfileOrders_QuickType.cs" />
+    <Compile Include="WFM\User.cs" />
     <Compile Include="WFM\WfmAccount.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -2,74 +2,89 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Warframe_Market_Manager.Lib.Web;
+using Warframe_Market_Manager.Lib.Extensions;
+using Warframe_Market_Manager.Lib.WFM.QuickType;
 
 namespace Warframe_Market_Manager.Lib.WFM
 {
     public class WfmAccount
     {
-        public string email = "";
-        public string password = "";
-        [NonSerialized] public Profile profile;
+        [NonSerialized] public AccountProfile profile;
         [NonSerialized] public string savePath = $"{Environment.CurrentDirectory}\\account data.json";
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Jwt { get; set; }
+
 
         public WfmAccount() {  }
 
         public WfmAccount(string email, string password)
         {
-            LoadAccount(email, password, out string jwt);
+            Login(email, password);
         }
 
-        
-        public bool LoadAccount(string email, string password, out string jwt)
+
+        public void SaveAccountToFile() => Serializer.SaveToFile(this, savePath);
+        public WfmAccount GetAccountFromFile()
         {
-            bool success = Login(email, password, out jwt);
+            if (!File.Exists(savePath))
+            {
+                SaveAccountToFile();
+                return this;
+            }
 
-            if (success && profile is null)
-                profile = LoadProfile();
+            var account = Serializer.LoadFromFile<WfmAccount>(savePath);
+            if (account is null)
+                return this;
 
-            return success;
+            Email = account.Email;
+            Password = account.Password;
+            return this;
         }
 
-        private bool Login(string email, string password, out string jwt)
-        {
-            jwt = "";
 
-            var client = RestHelper.client;
-            var request = RestHelper.InitializeRequest("auth/signin");
+        public async Task<bool> LoginAsync()
+        {
+            bool loadedAccount = false;
+            await Task.Run(() => { loadedAccount = Login(Email, Password); });
+            return loadedAccount;
+        }
+        public async Task<bool> LoginAsync(string email, string password)
+        {
+            bool loadedAccount = false;
+            await Task.Run(() => { loadedAccount = Login(email, password); });
+            return loadedAccount;
+        }
+
+
+        public bool Login() => Login(Email, Password);
+        public bool Login(string email, string password)
+        {
             var json = $"{{ \"email\":\"{email}\",\"password\":\"{password.Replace(@"\", @"\\")}\", \"auth_type\": \"header\"}}";
-            request.AddJsonBody(json);
-            var response = client.Post(request);
+            var response = RestHelper.Post("auth/signin", jsonBody: json);
 
-            if (response is null)
+            if (!Jwt.IsNullOrEmpty())
+                return true;
+
+            bool success = SetJWT(response);
+            if (!success)
                 return false;
 
-            if (string.IsNullOrEmpty(MarketHandler.Instance.JWT))
-            {
-                bool success = SetJWT(response);
-                jwt = (success) ? MarketHandler.Instance.JWT : "";
-                if (!success)
-                    return false;
 
-                this.email = email;
-                this.password = password;
-                Logger.Log("Successfully logged into Warframe Market account.");
-            }
+            Email = email;
+            Password = password;
+            Logger.Log("Successfully logged into Warframe Market account.");
+
+            if (profile is null)
+                profile = LoadProfile();
+
+            Logger.Log($"Welcome {profile?.IngameName}");
 
             return true;
         }
-
-        private Profile LoadProfile()
-        {
-            var profileResponse = RestHelper.Get("/profile").Content;
-            var profile = Profile_Config.FromJson(profileResponse).Profile;
-
-            string msg = (profile is null) ? "Failed to get WFM profile. Try relaunching app." : "Successfully aquired WFM profile.";
-            Logger.Log(msg);
-
-            return profile;
-        }
-
         private bool SetJWT(IRestResponse response)
         {
             var header = response.Headers.FirstOrDefault(h => h.Name == "Authorization");
@@ -80,32 +95,22 @@ namespace Warframe_Market_Manager.Lib.WFM
             }
 
             var jwt = header.Value.ToString();
-            MarketHandler.Instance.JWT = jwt.Replace("JWT", "").Trim();
+            Jwt = jwt.Replace("JWT", "").Trim();
             return true;
         }
-
-
-
-        public WfmAccount LoadFromFile()
+        private AccountProfile LoadProfile()
         {
-            if (!File.Exists(savePath))
-            {
-                SaveToFile();
-                return this;
-            }
+            var profileResponse = RestHelper.Get("/profile").Content;
+            var profile = AccountProfile_QuickType.FromJson(profileResponse).AccountProfile;
 
-            var account = Serializer.LoadFromFile<WfmAccount>(savePath);
-            if (account is null)
-                return this;
+            string msg = (profile is null) ? "Failed to get WFM profile. Try relaunching app." : "Successfully aquired WFM profile.";
+            Logger.Log(msg);
 
-            email = account.email;
-            password = account.password;
-            return this;
+            return profile;
         }
 
-        public void SaveToFile()
-        {
-            Serializer.SaveToFile(this, savePath);
-        }
+
+        private bool HasEmailAndPass() => !Email.IsNullOrEmpty() && !Password.IsNullOrEmpty();
+        public bool HasJwt() => !string.IsNullOrEmpty(Jwt);
     }
 }

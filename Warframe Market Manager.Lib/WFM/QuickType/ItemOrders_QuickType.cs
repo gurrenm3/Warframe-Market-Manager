@@ -2,11 +2,11 @@
 //
 // To parse this JSON data, add NuGet 'Newtonsoft.Json' then do:
 //
-//    using Warframe_Market_Manager.Lib.WFM;
+//    using Warframe_Market_Manager.Lib.WFM.QuickType;
 //
-//    var marketOrderConfig = MarketOrderConfig.FromJson(jsonString);
+//    var itemOrders = ItemOrders.FromJson(jsonString);
 
-namespace Warframe_Market_Manager.Lib.WFM
+namespace Warframe_Market_Manager.Lib.WFM.QuickType
 {
     using System;
     using System.Collections.Generic;
@@ -15,94 +15,128 @@ namespace Warframe_Market_Manager.Lib.WFM
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
-    public partial class MarketOrder_Config
+    public partial class ItemOrders_QuickType
     {
-        [JsonProperty("payload")]
-        public Payload Payload { get; set; }
+        /*[JsonProperty("payload", NullValueHandling = NullValueHandling.Ignore)]
+        public Payload Payload { get; set; }*/
+
+        [JsonProperty("orders", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Order> Orders { get; set; }
+
+
+        public static ItemOrders_QuickType FromJson(string json)
+        {
+            return JsonConvert.DeserializeObject<ItemOrders_QuickType>(json, Warframe_Market_Manager.Lib.WFM.QuickType.ItemOrders_QuickType.Settings);
+        }
+
+        internal static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
+            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+            DateParseHandling = DateParseHandling.None,
+            Converters =
+            {
+                OrderTypeConverter.Singleton,
+                PlatformConverter.Singleton,
+                RegionConverter.Singleton,
+                StatusConverter.Singleton,
+                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+            },
+        };
     }
 
-    public partial class Payload
+    public static class ItemOrders_QuickTypeExt
     {
-        [JsonProperty("orders")]
-        public Order[] Orders { get; set; }
+        public static string ToJson(this ItemOrders_QuickType self)
+        {
+            return JsonConvert.SerializeObject(self, Warframe_Market_Manager.Lib.WFM.QuickType.ItemOrders_QuickType.Settings);
+        }
     }
 
-    public partial class Order
-    {
-        [JsonProperty("region")]
-        public Region Region { get; set; }
 
-        [JsonProperty("user")]
+    /*public partial class Payload
+    {
+        [JsonProperty("orders", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Order> Orders { get; set; }
+    }*/
+
+    /*public class Order
+    {
+        [JsonProperty("visible", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? Visible { get; set; }
+
+        [JsonProperty("region", NullValueHandling = NullValueHandling.Ignore)]
+        public Region? Region { get; set; }
+
+        [JsonProperty("platform", NullValueHandling = NullValueHandling.Ignore)]
+        public Platform? Platform { get; set; }
+
+        [JsonProperty("creation_date", NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset? CreationDate { get; set; }
+
+        [JsonProperty("quantity", NullValueHandling = NullValueHandling.Ignore)]
+        public long? Quantity { get; set; }
+
+        [JsonProperty("last_update", NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset? LastUpdate { get; set; }
+
+        [JsonProperty("order_type", NullValueHandling = NullValueHandling.Ignore)]
+        public OrderType? OrderType { get; set; }
+
+        [JsonProperty("user", NullValueHandling = NullValueHandling.Ignore)]
         public User User { get; set; }
 
-        [JsonProperty("order_type")]
-        public OrderType OrderType { get; set; }
+        [JsonProperty("platinum", NullValueHandling = NullValueHandling.Ignore)]
+        public long? Platinum { get; set; }
 
-        [JsonProperty("quantity")]
-        public long Quantity { get; set; }
-
-        [JsonProperty("platinum")]
-        public long Platinum { get; set; }
-
-        [JsonProperty("visible")]
-        public bool Visible { get; set; }
-
-        [JsonProperty("last_update")]
-        public DateTimeOffset LastUpdate { get; set; }
-
-        [JsonProperty("platform")]
-        public Platform Platform { get; set; }
-
-        [JsonProperty("creation_date")]
-        public DateTimeOffset CreationDate { get; set; }
-
-        [JsonProperty("id")]
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
-    }
+    }*/
 
-    public partial class User
+    /*public class User
     {
-        [JsonProperty("ingame_name")]
+        [JsonProperty("ingame_name", NullValueHandling = NullValueHandling.Ignore)]
         public string IngameName { get; set; }
 
-        [JsonProperty("last_seen")]
-        public DateTimeOffset LastSeen { get; set; }
+        [JsonProperty("last_seen", NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset? LastSeen { get; set; }
 
-        [JsonProperty("reputation")]
-        public long Reputation { get; set; }
+        [JsonProperty("reputation", NullValueHandling = NullValueHandling.Ignore)]
+        public long? Reputation { get; set; }
 
-        [JsonProperty("region")]
-        public Region Region { get; set; }
+        [JsonProperty("region", NullValueHandling = NullValueHandling.Ignore)]
+        public Region? Region { get; set; }
 
-        [JsonProperty("status")]
-        public Status Status { get; set; }
+        [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
+        public Status? Status { get; set; }
 
-        [JsonProperty("id")]
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
 
         [JsonProperty("avatar")]
         public string Avatar { get; set; }
-    }
+    }*/
 
-    public enum OrderType { Buy, Sell };
+
+    /*public enum OrderType { Buy, Sell };
 
     public enum Platform { Pc };
 
-    public enum Region { En };
+    public enum Region { De, En, Ru };
 
-    public enum Status { Ingame, Online, Offline };
+    public enum Status { Ingame, Offline, Online };*/
 
-    public partial class MarketOrder_Config
+
+    /*public partial class ItemOrders
     {
-        public static MarketOrder_Config FromJson(string json) => JsonConvert.DeserializeObject<MarketOrder_Config>(json, Warframe_Market_Manager.Lib.WFM.MarketOrder_Converter.Settings);
-    }
+        public static ItemOrders FromJson(string json) => JsonConvert.DeserializeObject<ItemOrders>(json, Warframe_Market_Manager.Lib.WFM.QuickType.Converter.Settings);
+    }*/
 
-    public static class MarketOrder_Serialize
+    /*public static class Serialize
     {
-        public static string ToJson(this MarketOrder_Config self) => JsonConvert.SerializeObject(self, Warframe_Market_Manager.Lib.WFM.MarketOrder_Converter.Settings);
-    }
+        public static string ToJson(this ItemOrders self) => JsonConvert.SerializeObject(self, Warframe_Market_Manager.Lib.WFM.QuickType.ItemOrders.Settings);
+    }*/
 
-    internal static class MarketOrder_Converter
+    /*internal static class Converter
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
@@ -117,7 +151,7 @@ namespace Warframe_Market_Manager.Lib.WFM
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
         };
-    }
+    }*/
 
     internal class OrderTypeConverter : JsonConverter
     {
@@ -202,13 +236,16 @@ namespace Warframe_Market_Manager.Lib.WFM
         {
             if (reader.TokenType == JsonToken.Null) return null;
             var value = serializer.Deserialize<string>(reader);
-            return Region.En; // using En as default
-
-            /*if (value == "en")
+            switch (value)
             {
-                return Region.En;
-            }*/
-            //throw new Exception("Cannot unmarshal type Region");
+                case "de":
+                    return Region.De;
+                case "en":
+                    return Region.En;
+                case "ru":
+                    return Region.Ru;
+            }
+            throw new Exception("Cannot unmarshal type Region");
         }
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
@@ -219,10 +256,17 @@ namespace Warframe_Market_Manager.Lib.WFM
                 return;
             }
             var value = (Region)untypedValue;
-            if (value == Region.En)
+            switch (value)
             {
-                serializer.Serialize(writer, "en");
-                return;
+                case Region.De:
+                    serializer.Serialize(writer, "de");
+                    return;
+                case Region.En:
+                    serializer.Serialize(writer, "en");
+                    return;
+                case Region.Ru:
+                    serializer.Serialize(writer, "ru");
+                    return;
             }
             throw new Exception("Cannot marshal type Region");
         }
@@ -232,7 +276,7 @@ namespace Warframe_Market_Manager.Lib.WFM
 
     internal class StatusConverter : JsonConverter
     {
-        public override bool CanConvert(Type t) => t == typeof(Status) || t == typeof(Status?);
+        public override bool CanConvert(Type t) => t == typeof(OnlineStatus) || t == typeof(OnlineStatus?);
 
         public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
         {
@@ -241,15 +285,13 @@ namespace Warframe_Market_Manager.Lib.WFM
             switch (value)
             {
                 case "ingame":
-                    return Status.Ingame;
-                case "online":
-                    return Status.Online;
+                    return OnlineStatus.Ingame;
                 case "offline":
-                    return Status.Offline;
-                default:
-                    return Status.Offline;
+                    return OnlineStatus.Offline;
+                case "online":
+                    return OnlineStatus.Online;
             }
-            //throw new Exception("Cannot unmarshal type Status");
+            throw new Exception("Cannot unmarshal type Status");
         }
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
@@ -259,17 +301,17 @@ namespace Warframe_Market_Manager.Lib.WFM
                 serializer.Serialize(writer, null);
                 return;
             }
-            var value = (Status)untypedValue;
+            var value = (OnlineStatus)untypedValue;
             switch (value)
             {
-                case Status.Ingame:
+                case OnlineStatus.Ingame:
                     serializer.Serialize(writer, "ingame");
                     return;
-                case Status.Online:
-                    serializer.Serialize(writer, "online");
-                    return;
-                case Status.Offline:
+                case OnlineStatus.Offline:
                     serializer.Serialize(writer, "offline");
+                    return;
+                case OnlineStatus.Online:
+                    serializer.Serialize(writer, "online");
                     return;
             }
             throw new Exception("Cannot marshal type Status");
