@@ -9,14 +9,8 @@ namespace Warframe_Market_Manager.Lib.Extensions
     {
         public static List<Order> GetSellOrders(this AccountProfile profile)
         {
-            //Logger.Log("2");
-            string json = RestHelper.Get($"profile/{profile.IngameName}/orders", requireAuth:true).Content.Replace("\\","/");
-            //Logger.Log(json);
-
-            //return new List<Order>();
-            //Logger.Log("3");
+            string json = RestHelper.Get($"profile/{MarketManager.Instance.Account.InGameName}/orders", requireAuth:true).Content.Replace("\\","/");
             var orderConfig = ProfileOrders_QuickType.FromJson(json);
-            //Logger.Log("4");
             return orderConfig.Payload.SellOrders;
         }
 

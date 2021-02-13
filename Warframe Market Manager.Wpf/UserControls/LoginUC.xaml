@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Warframe_Market_Manager.Wpf.UserControls.LoginUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Warframe_Market_Manager.Wpf.UserControls"
+             mc:Ignorable="d" d:DesignWidth="800" Height="262.5">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="ContentGrid" Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--<TextBlock Text="Login" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" FontSize="25" Foreground="White"/>-->
+
+            <Grid x:Name="EmailGrid" Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="13"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Email:" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Foreground="White"/>
+                <RichTextBox x:Name="EmailRTB" FontSize="18" Grid.Column="3" VerticalContentAlignment="Center" Margin="0,2" AcceptsReturn="False" Background="#FF2B2B2B" Foreground="White"/>
+            </Grid>
+            <Grid x:Name="PasswordGrid" Grid.Column="1" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="18"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Pass:" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Foreground="White"/>
+                <RichTextBox x:Name="PasswordRTB" FontSize="18" Grid.Column="3" VerticalContentAlignment="Center" Margin="0,2" AcceptsReturn="False" Background="#FF2B2B2B" Foreground="White"/>
+            </Grid>
+            <Grid x:Name="SubmitGrid" Grid.Column="1" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="55"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="SubmitButton" Content="Submit" Grid.Column="1" Margin="0,8,0,0" FontSize="16" Click="SubmitButton_Click"/>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</UserControl>

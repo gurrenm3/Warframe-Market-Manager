@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\AssemblyExt.cs" />
     <Compile Include="Extensions\ItemOverviewExt.cs" />
     <Compile Include="Extensions\OrderExt.cs" />
     <Compile Include="Extensions\AccountProfileExt.cs" />
@@ -67,10 +68,10 @@
     <Compile Include="WFM\LinkedAccounts.cs" />
     <Compile Include="WFM\MarketManager.cs" />
     <Compile Include="WFM\Enums\OnlineStatus.cs" />
+    <Compile Include="WFM\PriceManager.cs" />
     <Compile Include="WFM\Order.cs" />
     <Compile Include="WFM\Enums\OrderType.cs" />
     <Compile Include="WFM\Enums\Platform.cs" />
-    <Compile Include="WFM\ProfileItemOverview.cs" />
     <Compile Include="WFM\QuickType\AccountProfile_QuickType.cs" />
     <Compile Include="WFM\QuickType\AllItems_QuickType.cs" />
     <Compile Include="WFM\QuickType\ItemInformation_QuickType.cs" />

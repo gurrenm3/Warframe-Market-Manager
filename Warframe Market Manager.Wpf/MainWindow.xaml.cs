@@ -18,6 +18,9 @@ using Warframe_Market_Manager.Lib;
 using Warframe_Market_Manager.Lib.Extensions;
 using Warframe_Market_Manager.Lib.Web;
 using Warframe_Market_Manager.Lib.WFM;
+using Warframe_Market_Manager.Wpf.UserControls;
+using Warframe_Market_Manager.Wpf.Extensions;
+using System.Diagnostics;
 
 namespace Warframe_Market_Manager.Wpf
 {
@@ -28,6 +31,10 @@ namespace Warframe_Market_Manager.Wpf
     {
         public static MainWindow instance;
         private MarketManager market;
+        private bool hasLoaded = false;
+        private DebugLogUC debugUC = new DebugLogUC();
+        private LoginUC loginUC = new LoginUC();
+        private WelcomeUC welcomeUC = new WelcomeUC();
 
         public MainWindow()
         {
@@ -35,76 +42,104 @@ namespace Warframe_Market_Manager.Wpf
             instance = this;
 
             Logger.MessageLogged += Logger_MessageLogged;
-            
+
             market = MarketManager.Instance;
-            MarketManager.MarketItemData_Aquired += MarketItemData_Aquired;
             Main.FinishedLoading += Main_FinishedLoading;
+        }
+
+        private void Window_Closed(object sender, EventArgs e) => Application.Current.Shutdown();
+
+        private void Logger_MessageLogged(object sender, Logger.LogEvents e)
+        {
+            Main.RunOnUIThread(() =>
+            {
+                debugUC.OutputConsole.AppendText($">> {e.Message}\n");
+                debugUC.OutputConsole.CaretPosition = debugUC.OutputConsole.Document.ContentEnd;
+            });
         }
 
         private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            Logger.Log("Warframe Market Manager has loaded");
-            //Main.GetAccountData();
-        }
+            if (hasLoaded)
+                return;
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-
-        private void Logger_MessageLogged(object sender, Logger.LogEvents e)
-        {
-            //MessageBox.Show(e.Message);
-            Main.RunOnUIThread(() =>
-            {
-                ConsoleRTB.AppendText($"{e.Message}\n");
-                ConsoleRTB.CaretPosition = ConsoleRTB.Document.ContentEnd;
-            });
+            new Main().OnFinishedLoading(new Main.MainEventArgs());
+            hasLoaded = true;
         }
 
         private void Main_FinishedLoading(object sender, Main.MainEventArgs e)
         {
-            //GetMarketItems();
+            Logger.Log("Warframe Market Manager has loaded");
+
+            welcomeUC.Visibility = Visibility.Visible;
+            ContentGrid.Children.Add(welcomeUC);
+
+            debugUC.Visibility = Visibility.Hidden;
+            ContentGrid.Children.Add(debugUC);
+
+            loginUC.Visibility = Visibility.Hidden;
+            ContentGrid.Children.Add(loginUC);
+
+            TryLoginFromFileAsync();
         }
 
-        /*private void GetMarketItems()
+        private async Task TryLoginFromFileAsync()
         {
-            Thread t = new Thread(() => 
+            var account = MarketManager.Instance.Account;
+            account.TryLoginFromFile();
+            if (account.isLoggedIn)
             {
-                var json = RestHandler.Get("items");
-                market.ItemData = MarketItems_Config.FromJson(json);
-                market.OnMarketItemData_Aquired(new MarketHandler.MarketHandlerEvents());
-            });
-
-            t.IsBackground = true;
-            t.Start();
-        }*/
-
-        private void MarketItemData_Aquired(object sender, MarketManager.MarketHandlerEvents e)
-        {
-
-        }
-
-        private async void ModifyOrders_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (!market.Account.IsLoggedIn)
-            {
-                var account = market.Account;
-                account.GetAccountFromFile();
-                if (!account.HasEmailAndPass())
-                {
-                    Windows.LoginWindow loginWindow = new Windows.LoginWindow();
-                    loginWindow.Show();
-                    return;
-                }
-
-                await account.LoginAsync();
+                InGameName_TextBlock.Text = $"{account.InGameName}";
+                return;
             }
 
-            if (market.Account.IsLoggedIn)
+            welcomeUC.LoginSection.Children.Add(new LoginUC());
+        }
+
+        private void DiscordButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://discord.gg/M7BHnPS");
+        }
+
+        private void GithubButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/gurrenm3/Warframe-Market-Manager");
+        }
+
+        private void DonateButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://www.buymeacoffee.com/toms.tutorials");
+        }
+
+        private void DebugButton_Click(object sender, RoutedEventArgs e)
+        {
+            debugUC.Visibility = (debugUC.Visibility == Visibility.Visible) ? Visibility.Hidden : Visibility.Visible;
+            
+            loginUC.Visibility = Visibility.Hidden;
+            welcomeUC.Visibility = (debugUC.Visibility == Visibility.Visible) ? Visibility.Hidden : Visibility.Visible;
+            //welcomeUC.WelcomeMsg_TextBlock.Visibility = (debugUC.Visibility == Visibility.Visible) ? Visibility.Hidden : Visibility.Visible;
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            welcomeUC.Visibility = Visibility.Visible;
+            loginUC.Visibility = (loginUC.Visibility == Visibility.Visible) ? Visibility.Hidden : Visibility.Visible;
+
+            debugUC.Visibility = Visibility.Hidden;
+            //welcomeUC.WelcomeMsg_TextBlock.Visibility = (loginUC.Visibility == Visibility.Visible) ? Visibility.Hidden : Visibility.Visible;
+        }
+
+        private void UpdateOrdersButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (market.Account.isLoggedIn)
             {
                 market.UpdateAllListings();
+            }
+            else
+            {
+                string msg = "You need to be logged in in order to update your orders";
+                Logger.Log(msg);
+                MessageBox.Show(msg);
             }
         }
     }

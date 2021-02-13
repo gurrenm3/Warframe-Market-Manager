@@ -5,8 +5,14 @@ namespace Warframe_Market_Manager.Lib.WFM
 {
     public class ItemOverview
     {
+        public PriceManager PriceManager { get; set; } = new PriceManager();
+
+
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
+
+        [JsonProperty("tradable", NullValueHandling = NullValueHandling.Ignore)]
+        public bool Tradable { get; set; }
 
         [JsonProperty("trading_tax", NullValueHandling = NullValueHandling.Ignore)]
         public long? TradingTax { get; set; }
@@ -72,5 +78,11 @@ namespace Warframe_Market_Manager.Lib.WFM
 
         [JsonProperty("sv", NullValueHandling = NullValueHandling.Ignore)]
         public ItemOverview Sv { get; set; }*/
+
+
+        public ItemOverview()
+        {
+            
+        }
     }
 }

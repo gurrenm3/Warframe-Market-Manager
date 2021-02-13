@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 using Warframe_Market_Manager.Lib.Web;
 using Warframe_Market_Manager.Lib.Extensions;
 using Warframe_Market_Manager.Lib.WFM.QuickType;
+using System.Reflection;
 
 namespace Warframe_Market_Manager.Lib.WFM
 {
     public class WfmAccount
     {
         [NonSerialized] public AccountProfile profile;
-        [NonSerialized] public string savePath = $"{Environment.CurrentDirectory}\\account data.json";
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Jwt { get; set; }
-        public bool IsLoggedIn { get; set; }
+        [NonSerialized] public string savePath = $"{Assembly.GetExecutingAssembly().GetDirectory()}\\account data.json";
+        [NonSerialized] public bool isLoggedIn;
+
+        public string Email { get; set; } = "";
+        public string Password { get; set; } = "";
+        public string InGameName { get; set; } = "";
+        public string Jwt { get; set; } = "";
 
         public WfmAccount() {  }
 
@@ -42,9 +45,27 @@ namespace Warframe_Market_Manager.Lib.WFM
 
             Email = account.Email;
             Password = account.Password;
+            Jwt = account.Jwt;
+            InGameName = account.InGameName;
             return this;
         }
 
+        public bool TryLoginFromFile()
+        {
+            GetAccountFromFile();
+            if (!HasEmailAndPass())
+                return false;
+
+            if (!HasJwt())
+            {
+                Login();
+                if (!HasJwt())
+                    return false;
+            }
+
+            isLoggedIn = true;
+            return true;
+        }
 
         public async Task<bool> LoginAsync()
         {
@@ -66,7 +87,7 @@ namespace Warframe_Market_Manager.Lib.WFM
             var json = $"{{ \"email\":\"{email}\",\"password\":\"{password.Replace(@"\", @"\\")}\", \"auth_type\": \"header\"}}";
             var response = RestHelper.Post("auth/signin", jsonBody: json);
 
-            if (IsLoggedIn)
+            if (isLoggedIn)
                 return true;
 
             bool success = SetJWT(response);
@@ -85,8 +106,9 @@ namespace Warframe_Market_Manager.Lib.WFM
                 return false;
             }
 
-            Logger.Log($"Welcome {profile?.IngameName}");
-            IsLoggedIn = true;
+            InGameName = profile.IngameName;
+            Logger.Log($"Welcome {InGameName}");
+            isLoggedIn = true;
             
             return true;
         }

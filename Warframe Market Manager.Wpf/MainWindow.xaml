@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Warframe_Market_Manager.Wpf"
         mc:Ignorable="d"
-        Title="Warframe Market Manager" Height="450" Width="800" Closed="Window_Closed" IsVisibleChanged="Window_IsVisibleChanged"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Warframe Market Manager" Height="525" Width="950" MinHeight="450" MinWidth="800" Closed="Window_Closed" IsVisibleChanged="Window_IsVisibleChanged" WindowStartupLocation="CenterScreen"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:usercontrols="clr-namespace:Warframe_Market_Manager.Wpf.UserControls" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
-        Background="#FF3E3E3E"
+        Background="White"
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -21,26 +21,40 @@
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="1" Grid.Column="1" Background="#FF646464">
-            <TabItem Header="Test 1">
-                <Button x:Name="ModifyOrders_Button" Content="Update All Orders" Height="Auto" Margin="262,135,281,170" Click="ModifyOrders_Button_Click"/>
-            </TabItem>
-            <TabItem Header="Test 2">
+        <Grid x:Name="Toolbar" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="#FF1B1B1B" Height="60">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
 
-            </TabItem>
-            <TabItem Header="Test 3">
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="View My Orders" Height="auto" Width="auto" Margin="0,4"/>
+                <Rectangle Margin="10,6" Fill="#FF747474" Width="1"/>
+                <Button Content="Update My Orders" Height="auto" Width="auto" Margin="0,4" Click="UpdateOrdersButton_Click"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Column="2" Height="50" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock x:Name="InGameName_TextBlock" Text="InGame Name " Foreground="#DDFFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Rectangle Margin="10,6" Fill="#FF747474" Width="1"/>
+                <TextBlock Text="More" Foreground="#DDFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <materialDesign:PopupBox x:Name="MoreDropdown" Foreground="#DDFFFFFF" Margin="0,0,0,0" BorderThickness="0" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                    <StackPanel VerticalAlignment="Center">
+                        <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Center" Click="LoginButton_Click"/>
+                        <Button x:Name="GithubButton" Content="Github" HorizontalAlignment="Center" Click="GithubButton_Click"/>
+                        <Button x:Name="DiscordButton" Content="Discord" HorizontalAlignment="Center" Click="DiscordButton_Click"/>
+                        <Button x:Name="DonateButton" Content="Support the Dev" HorizontalAlignment="Center" Click="DonateButton_Click"/>
+                        <Button x:Name="DebugButton" Content="View Debug Log" HorizontalAlignment="Center" Click="DebugButton_Click"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+            </StackPanel>
+        </Grid>
 
-            </TabItem>
-            <TabItem Header="Console" x:Name="Console">
-                <RichTextBox x:Name="ConsoleRTB" Background="#FFC3C3C3" FontSize="18" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
-
-                </RichTextBox>
-            </TabItem>
-        </TabControl>
+        <Grid x:Name="ContentGrid" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" Background="#FF404040"/>
     </Grid>
 </Window>

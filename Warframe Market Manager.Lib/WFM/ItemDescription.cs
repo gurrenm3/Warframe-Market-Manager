@@ -12,6 +12,9 @@ namespace Warframe_Market_Manager.Lib.WFM
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
 
+        [JsonProperty("codex", NullValueHandling = NullValueHandling.Ignore)]
+        public string Codex { get; set; }
+
         [JsonProperty("wiki_link", NullValueHandling = NullValueHandling.Ignore)]
         public Uri WikiLink { get; set; }
 

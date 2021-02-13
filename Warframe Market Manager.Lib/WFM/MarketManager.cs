@@ -39,21 +39,24 @@ namespace Warframe_Market_Manager.Lib.WFM
         
         public void UpdateAllListings()
         {
-            //Logger.Log("1");
             var myOrders = Account.profile.GetSellOrders();
-            //return;
-            //Logger.Log("5");
+
             foreach (var myOrder in myOrders)
             {
                 var allSellOrders = myOrder.ItemOverview.GetAllSellOrders(OnlineStatus.Ingame);
                 if (!allSellOrders.Any())
                     break;
 
-                //Logger.Log("6");
                 var topListing = allSellOrders[0];
 
                 if (myOrder.Id != topListing.Id)
                     myOrder.ModifyOrder(cost: topListing.Platinum.Value);
+                else
+                {
+                    var secondListing = allSellOrders[1];
+                    if (myOrder.Platinum != secondListing.Platinum)
+                        myOrder.ModifyOrder(cost: secondListing.Platinum.Value);
+                }
             }
         }
 
