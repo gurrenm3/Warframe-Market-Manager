@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Warframe_Market_Manager.Lib.Web;
 using Warframe_Market_Manager.Lib.WFM;
-using Warframe_Market_Manager.Lib.Extensions;
+using Warframe_Market_Manager.Extensions;
 using Warframe_Market_Manager.Lib.WFM.QuickType;
 
-namespace Warframe_Market_Manager.Lib.Extensions
+namespace Warframe_Market_Manager.Extensions
 {
     public static class ItemOverviewExt
     {

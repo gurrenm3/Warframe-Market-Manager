@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Warframe_Market_Manager.Extensions;
 
 namespace Warframe_Market_Manager.Lib.WFM
 {

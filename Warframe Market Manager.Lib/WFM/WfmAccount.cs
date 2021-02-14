@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Warframe_Market_Manager.Lib.Web;
-using Warframe_Market_Manager.Lib.Extensions;
+using Warframe_Market_Manager.Extensions;
 using Warframe_Market_Manager.Lib.WFM.QuickType;
 using System.Reflection;
 
@@ -137,7 +137,7 @@ namespace Warframe_Market_Manager.Lib.WFM
         }
 
 
-        public bool HasEmailAndPass() => !Email.IsNullOrEmpty() && !Password.IsNullOrEmpty();
+        public bool HasEmailAndPass() => !string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password);
         public bool HasJwt() => !string.IsNullOrEmpty(Jwt);
     }
 }

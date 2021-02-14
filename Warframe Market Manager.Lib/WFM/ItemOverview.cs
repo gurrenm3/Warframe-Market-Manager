@@ -5,7 +5,7 @@ namespace Warframe_Market_Manager.Lib.WFM
 {
     public class ItemOverview
     {
-        public PriceManager PriceManager { get; set; } = new PriceManager();
+        public MinPriceManager PriceManager { get; set; } = new MinPriceManager();
 
 
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
@@ -18,7 +18,7 @@ namespace Warframe_Market_Manager.Lib.WFM
         public long? TradingTax { get; set; }
 
         [JsonProperty("en", NullValueHandling = NullValueHandling.Ignore)]
-        public ItemDescription EnglishOverview { get; set; }
+        public ItemDescription EnglishDescription { get; set; }
 
         [JsonProperty("set_root", NullValueHandling = NullValueHandling.Ignore)]
         public bool? SetRoot { get; set; }

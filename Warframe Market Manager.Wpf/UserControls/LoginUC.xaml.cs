@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Warframe_Market_Manager.Lib;
 using Warframe_Market_Manager.Lib.WFM;
-using Warframe_Market_Manager.Wpf.Extensions;
+using Warframe_Market_Manager.Extensions;
 
 namespace Warframe_Market_Manager.Wpf.UserControls
 {
@@ -33,8 +33,8 @@ namespace Warframe_Market_Manager.Wpf.UserControls
             if (!AreInputsValid())
                 return;
 
-            string email = EmailRTB.GetContent().Trim();
-            string password = PasswordRTB.GetContent().Trim();
+            string email = EmailRTB.GetText().Trim();
+            string password = PasswordRTB.GetText().Trim();
 
             var success = await MarketManager.Instance.Account.LoginAsync(email, password);
             if (!success)
@@ -46,6 +46,9 @@ namespace Warframe_Market_Manager.Wpf.UserControls
             else
             {
                 MarketManager.Instance.Account.SaveAccountToFile();
+                MainWindow.instance.ShowHideLoginScreen();
+                MainWindow.instance.ordersAndMinsUC.PopulateMyOrders();
+                MainWindow.instance.InGameName_TextBlock.Text = MarketManager.Instance.Account.InGameName;
             }
         }
 

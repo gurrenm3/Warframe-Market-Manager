@@ -8,6 +8,9 @@ namespace Warframe_Market_Manager.Lib.WFM
         [JsonProperty("item", NullValueHandling = NullValueHandling.Ignore)]
         public ItemOverview ItemOverview { get; set; }
 
+        [JsonProperty("mod_rank", NullValueHandling = NullValueHandling.Ignore)]
+        public int? ModRank { get; set; }
+
         [JsonProperty("visible", NullValueHandling = NullValueHandling.Ignore)]
         public bool? Visible { get; set; }
 

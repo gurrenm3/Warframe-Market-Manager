@@ -2,16 +2,18 @@
 using System.Threading.Tasks;
 using Warframe_Market_Manager.Lib;
 using Warframe_Market_Manager.Lib.WFM;
-using Warframe_Market_Manager.Wpf.Windows;
 
 namespace Warframe_Market_Manager.Wpf
 {
     class Main
     {
+        public const int minutesBetweenOrderUpdates = 1;
+
         public static void RunOnUIThread(Action act)
         {
             MainWindow.instance.Dispatcher.Invoke(act);
         }
+
 
 
         #region Events

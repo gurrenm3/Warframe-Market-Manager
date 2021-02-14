@@ -16,18 +16,25 @@ using System.Windows.Shapes;
 namespace Warframe_Market_Manager.Wpf.UserControls
 {
     /// <summary>
-    /// Interaction logic for SetMinimumUC.xaml
+    /// Interaction logic for MyOrderUC.xaml
     /// </summary>
-    public partial class SetMinimumUC : UserControl
+    public partial class MyOrderUC : UserControl
     {
-        public SetMinimumUC()
+        public string ItemName { get; set; }
+
+        public MyOrderUC()
         {
             InitializeComponent();
         }
 
-        private void Save_Button_Click(object sender, RoutedEventArgs e)
+        public MyOrderUC(string itemName)
         {
-            
+            ItemName = itemName;
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            ItemNameTB.Text = ItemName;
         }
     }
 }

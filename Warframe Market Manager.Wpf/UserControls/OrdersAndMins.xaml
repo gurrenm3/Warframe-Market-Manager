@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Warframe_Market_Manager.Wpf.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded" SizeChanged="UserControl_SizeChanged">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5"/>
@@ -14,26 +14,101 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="ContentGrid" Grid.Row="1" Grid.Column="1" Background="White">
+        
+        <Grid x:Name="HeaderGrid" Grid.Row="1" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
 
-            <Rectangle Grid.Column="0" Fill="White"/>
-            <Rectangle Grid.Column="1" Fill="#FF673AB7"/>
-            <Viewbox Stretch="Fill" StretchDirection="Both" Grid.Column="2">
-                <local:SetMinimumUC HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Viewbox>
+            <StackPanel Background="#FF2E2E2E">
+                <TextBlock Text="My Orders" Foreground="#FFEAEAEA" FontSize="26" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+            </StackPanel>
 
+            <StackPanel Background="#FF2E2E2E" Grid.Column="2">
+                <TextBlock x:Name="ItemNameTB" Text="Select Order to Modify" Foreground="Gainsboro" FontSize="26" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+            </StackPanel>
         </Grid>
+
+        <Grid Grid.Row="3" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Rectangle Fill="#FF673AB7" Grid.Column="1"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                
+                <ListBox x:Name="MyOrderList" Background="#FF343434" Margin="5,0,8,0" SelectionChanged="MyOrderList_SelectionChanged"/>
+                <Button x:Name="RefreshOrders_Button" Content="Refresh Orders List" Grid.Row="1" Click="RefreshOrders_Button_Click" VerticalAlignment="Bottom"/>
+            </Grid>
+            
+            
+            <Grid x:Name="SetMinPrice_Grid" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="1" Grid.ColumnSpan="4">
+                    <TextBlock Text="Set Minimum Allowed Price" FontSize="17" Foreground="White" HorizontalAlignment="Center"/>
+                    <RichTextBox x:Name="SetMinPriceTB" FontSize="17" Background="#FF35313C" Foreground="White" Margin="10" Height="30" MaxHeight="50" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <Button x:Name="Save_Button" Content="Save" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" VerticalAlignment="Center" Click="Save_Button_Click"  MaxWidth="250" MinHeight="30"/>
+            </Grid>
+        </Grid>
+        <!--<Grid x:Name="ContentGrid" Grid.Row="2" Grid.Column="1" Background="#FF474747">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel>
+                <Grid Background="#FF2E2E2E" Margin="0,0,0,8">
+                    <TextBlock Text="My Orders" Foreground="#FFEAEAEA" FontSize="28" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+                </Grid>
+                <ListBox x:Name="MyOrderList" Background="#FF343434" Margin="5,0,8,0" SelectionChanged="MyOrderList_SelectionChanged"/>
+            </StackPanel>
+
+            <Rectangle Grid.Column="1" Fill="#FF673AB7"/>
+            <Grid x:Name="ModifyOrderGrid" Grid.Column="2" Height="auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="1">
+                    <Grid Background="#FF2E2E2E" Margin="0,0,0,8">
+                        <TextBlock x:Name="ItemNameTB" Text="No Item Selected" Foreground="#FFEAEAEA" FontSize="28" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>-->
     </Grid>
 </UserControl>

@@ -52,11 +52,11 @@
     <Compile Include="Extensions\ItemOverviewExt.cs" />
     <Compile Include="Extensions\OrderExt.cs" />
     <Compile Include="Extensions\AccountProfileExt.cs" />
-    <Compile Include="Extensions\StringExt.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer.cs" />
+    <Compile Include="UserData.cs" />
     <Compile Include="Web\FileDownloader.cs" />
     <Compile Include="Web\GithubReleaseConfig.cs" />
     <Compile Include="Web\RestHelper.cs" />
@@ -68,7 +68,7 @@
     <Compile Include="WFM\LinkedAccounts.cs" />
     <Compile Include="WFM\MarketManager.cs" />
     <Compile Include="WFM\Enums\OnlineStatus.cs" />
-    <Compile Include="WFM\PriceManager.cs" />
+    <Compile Include="WFM\MinPriceManager.cs" />
     <Compile Include="WFM\Order.cs" />
     <Compile Include="WFM\Enums\OrderType.cs" />
     <Compile Include="WFM\Enums\Platform.cs" />

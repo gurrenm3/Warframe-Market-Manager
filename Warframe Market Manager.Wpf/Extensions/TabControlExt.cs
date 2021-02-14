@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace Warframe_Market_Manager.Wpf.Extensions
+namespace Warframe_Market_Manager.Extensions
 {
     public static class TabControlExt
     {
